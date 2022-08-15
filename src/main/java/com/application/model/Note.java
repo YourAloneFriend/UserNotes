@@ -1,9 +1,14 @@
 package com.application.model;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /***
  *   Note module(class) with data fields and some methods.
+ *   Fields:
+ *      noteName - String, isn't null.
+ *      note - String, isn't null.
+ *      userId - Long, isn't null.
  */
 public class Note {
 
@@ -47,6 +52,12 @@ public class Note {
     public int hashCode() {
         return Objects.hash(noteName, note, userId);
     }
+
+    /**
+     * Realization of Builder pattern.
+     * It's used for readable and convenient use when needs to create a Note object.
+     * */
+
 
     public static NoteBuilder base() {return new NoteBuilder();}
 
