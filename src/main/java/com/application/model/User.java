@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
  *      password - String, isn't null.
  */
 public class User {
+    private Integer id;
     private String userName;
     private String email;
     private String password;
@@ -97,6 +98,11 @@ public class User {
         private User user;
 
         private UserBuilder() {user = new User();}
+
+        public UserBuilder id(Integer id) throws IllegalArgumentException, NullPointerException{
+            this.user.id = id;
+            return this;
+        }
 
         public UserBuilder userName(String userName) throws IllegalArgumentException, NullPointerException{
             checkUserNameValidation(userName);
