@@ -1,5 +1,6 @@
 package com.application.controller;
 
+import com.application.database.UserDao;
 import com.application.model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -21,31 +22,35 @@ public class RegistrationServlet extends HttpServlet{
 
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = httpServletRequest.getRequestDispatcher("/WEB-INF/pages/registration.jsp");
+        httpServletRequest.getSession().setAttribute("alert-color", null);
+        httpServletRequest.getSession().setAttribute("alert", null);
         requestDispatcher.forward(httpServletRequest, httpServletResponse);
     }
 
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         if(httpServletRequest.getParameter("button").equals("Back")) {
-            httpServletRequest.getSession().setAttribute("alert-color", null);
-            httpServletRequest.getSession().setAttribute("alert", null);
             httpServletResponse.sendRedirect("/");
+            return;
         }
-        if(httpServletRequest.getParameter("button").equals("SignUp"))
-            try {
-                User user = User.base()
-                        .userName(httpServletRequest.getParameter("username"))
-                        .email(httpServletRequest.getParameter("email"))
-                        .checkPasswordsEquality(httpServletRequest.getParameter("password1"), httpServletRequest.getParameter("password2"))
-                        .password(httpServletRequest.getParameter("password1"))
-                        .build();
-                httpServletRequest.getSession().setAttribute("alert-color", false);
-                httpServletRequest.getSession().setAttribute("alert", "Account is successfully registered!");
-                httpServletRequest.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(httpServletRequest, httpServletResponse);
-            } catch (Exception ex){
-                httpServletRequest.getSession().setAttribute("alert-color", true);
-                httpServletRequest.getSession().setAttribute("alert", ex.getMessage());
-                httpServletRequest.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(httpServletRequest, httpServletResponse);
-            }
 
+        try {
+            User user = User.base()
+                    .userName(httpServletRequest.getParameter("username"))
+                    .email(httpServletRequest.getParameter("email"))
+                    .checkPasswordsEquality(httpServletRequest.getParameter("password1"), httpServletRequest.getParameter("password2"))
+                    .password(httpServletRequest.getParameter("password1"))
+                    .build();
+
+            UserDao.userRegistration(user);
+
+            httpServletRequest.getSession().setAttribute("alert-color", false);
+            httpServletRequest.getSession().setAttribute("alert", "Account is successfully registered!");
+        } catch (Exception ex){
+            httpServletRequest.getSession().setAttribute("alert-color", true);
+            httpServletRequest.getSession().setAttribute("alert", ex.getMessage());
+        } finally {
+            httpServletRequest.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(httpServletRequest, httpServletResponse);
+        }
     }
+
 }

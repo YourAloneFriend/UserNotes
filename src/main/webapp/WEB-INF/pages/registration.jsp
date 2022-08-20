@@ -14,11 +14,10 @@
 </div>
 
 
-<div class="AlertMessage">
-    <center>
+<center><div class="AlertMessage">
         <%
             if(session.getAttribute("alert-color") != null){
-            if((Boolean)session.getAttribute("alert-color")){
+                if((Boolean)session.getAttribute("alert-color")){
         %>
             <p class="color-red font-alert">${alert}</p>
         <%
@@ -29,9 +28,8 @@
             }}
         %>
 
-    </center>
     </br>
-</div>
+</div></center>
 
 <form method="post">
     <center><div class="registration">
