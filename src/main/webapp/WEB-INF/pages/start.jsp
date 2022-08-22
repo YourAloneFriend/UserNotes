@@ -16,7 +16,7 @@
 <form action="/registration">
     <center><button type="submit" class="big-btn color">SignUp</button></center>
 </form>
-<form action="/authorization">
+<form action="/authentication">
     <center><button type="submit" class="big-btn color">SignIn</button></center>
 </form>
 </body>

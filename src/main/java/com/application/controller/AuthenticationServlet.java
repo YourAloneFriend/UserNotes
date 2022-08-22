@@ -15,11 +15,11 @@ import java.io.IOException;
  *      Servlet where user will authorize into its account.
  */
 
-@WebServlet("/authorization")
-public class AuthorizationServlet extends HttpServlet {
+@WebServlet("/authentication")
+public class AuthenticationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = httpServletRequest.getRequestDispatcher("/WEB-INF/pages/authorization.jsp");
+        RequestDispatcher requestDispatcher = httpServletRequest.getRequestDispatcher("/WEB-INF/pages/authentication.jsp");
         httpServletRequest.getSession().setAttribute("alert", null);
         requestDispatcher.forward(httpServletRequest, httpServletResponse);
     }
@@ -41,7 +41,7 @@ public class AuthorizationServlet extends HttpServlet {
             httpServletResponse.sendRedirect("/home");
         } catch (Exception ex){
             httpServletRequest.getSession().setAttribute("alert", ex.getMessage());
-            httpServletRequest.getRequestDispatcher("/WEB-INF/pages/authorization.jsp").forward(httpServletRequest, httpServletResponse);
+            httpServletRequest.getRequestDispatcher("/WEB-INF/pages/authentication.jsp").forward(httpServletRequest, httpServletResponse);
         }
     }
 
