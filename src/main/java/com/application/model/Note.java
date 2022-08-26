@@ -1,43 +1,61 @@
 package com.application.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 /***
  *   Note module(class) with data fields and some methods.
  *   Fields:
+ *      id - Integer, isn't null and unique.
  *      noteName - String, isn't null.
  *      note - String, isn't null.
- *      userId - Long, isn't null.
+ *      userId - Integer, isn't null.
+ *      createdAt - LocalDateTime, isn't null and default current time.
  */
 public class Note {
 
+    private Integer id;
     private String noteName;
     private String note;
-    private Long userId;
+    private Integer userId;
+    private LocalDateTime createdAt;
 
+    public Integer getId() { return id; }
     public String getNoteName() {
         return noteName;
     }
-
-    public void setNoteName(String noteName) {
-        this.noteName = noteName;
-    }
-
     public String getNote() {
         return note;
     }
+    public Integer getUserId() {
+        return userId;
+    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 
+    public void setNoteName(String noteName) {
+        checkNoteNameValidation(noteName);
+        this.noteName = noteName;
+    }
     public void setNote(String note) {
+        checkNoteValidation(note);
         this.note = note;
     }
 
-    public Long getUserId() {
-        return userId;
+    /**
+     *  Check validation functions are to check whether set data is valid.
+     *  They are for every Note class fields.
+     * */
+    private static void checkNoteNameValidation(String noteName) throws IllegalArgumentException, NullPointerException{
+        CheckDataNull.checkDataNull(noteName, "Note name");
+        if(noteName.length() > 64)
+            throw new IllegalArgumentException("Note name too big.");
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    private static void checkNoteValidation(String note) throws IllegalArgumentException, NullPointerException{
+        CheckDataNull.checkDataNull(note, "Note");
+        if(note.length() > 2048)
+            throw new IllegalArgumentException("Note name too big.");
     }
 
     @Override
@@ -66,18 +84,30 @@ public class Note {
 
         private NoteBuilder() {noteBuilder = new Note();}
 
+        public NoteBuilder id(Integer id) {
+            this.noteBuilder.id = id;
+            return this;
+        }
+
         public NoteBuilder noteName(String noteName) {
+            checkNoteNameValidation(noteName);
             this.noteBuilder.noteName = noteName;
             return this;
         }
 
         public NoteBuilder note(String note) {
+            checkNoteValidation(note);
             this.noteBuilder.note = note;
             return this;
         }
 
-        public NoteBuilder userId(Long userId) {
+        public NoteBuilder userId(Integer userId) {
             this.noteBuilder.userId = userId;
+            return this;
+        }
+
+        public NoteBuilder createdAt(LocalDateTime createdAt) {
+            this.noteBuilder.createdAt = createdAt;
             return this;
         }
 
