@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * UserDao CRUD methods for user
+ *  Class to work with users in DB. UserDao realises CRUD methods for user.
+ * @method userRegistration - create new user.
+ * @method userLogin - user authentication.
  * */
 public interface UserDao {
 
