@@ -25,7 +25,7 @@ public interface UserDao {
                 throw new SQLException("User with this email is already registered.");
             }
         } catch (IOException e){
-            throw new IOException("Can't connect to DB or execute this query.");
+            throw new IOException("Can't connect to DB or execute this query. Something went wrong please message it to the administrator.");
         }
     }
 
@@ -57,7 +57,7 @@ public interface UserDao {
                 throw new SQLException("Wrong password.");
             }
         } catch (IOException e) {
-            throw new SQLException("Can't connect to DB or execute this query.");
+            throw new SQLException("Can't connect to DB or execute this query. Something went wrong please message it to the administrator.");
         }
     }
 }

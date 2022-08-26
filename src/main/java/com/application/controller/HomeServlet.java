@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -31,8 +32,12 @@ public class HomeServlet extends HttpServlet {
         user = (User)httpServletRequest.getSession().getAttribute("user");
         httpServletRequest.getSession().setAttribute("user", user);
 
-        notes = NoteDao.getAllUserNotes(user.getId());
-        httpServletRequest.getSession().setAttribute("notes", notes);
+        try {
+            notes = NoteDao.getAllUserNotes(user.getId());
+            httpServletRequest.getSession().setAttribute("notes", notes);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         requestDispatcher.forward(httpServletRequest, httpServletResponse);
     }

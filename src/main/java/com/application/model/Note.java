@@ -19,7 +19,7 @@ public class Note {
     private String noteName;
     private String note;
     private Integer userId;
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     public Integer getId() { return id; }
     public String getNoteName() {
@@ -31,7 +31,7 @@ public class Note {
     public Integer getUserId() {
         return userId;
     }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public String getCreatedAt() { return createdAt; }
 
     public void setNoteName(String noteName) {
         checkNoteNameValidation(noteName);
@@ -106,7 +106,7 @@ public class Note {
             return this;
         }
 
-        public NoteBuilder createdAt(LocalDateTime createdAt) {
+        public NoteBuilder createdAt(String createdAt) {
             this.noteBuilder.createdAt = createdAt;
             return this;
         }
