@@ -8,6 +8,6 @@ import javax.servlet.http.HttpServlet;
  *      And can edit note's name and text.
  */
 
-@WebServlet("/update")
+@WebServlet("/update-note")
 public class EditNoteServlet extends HttpServlet {
 }

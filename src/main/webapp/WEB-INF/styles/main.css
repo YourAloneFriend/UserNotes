@@ -11,6 +11,14 @@
     margin:10px 0;
 }
 
+.input-note-form{
+    padding: 10px;
+    width: 480px;
+    font-size: 18px;
+    box-sizing: border-box;
+    margin:10px 0;
+}
+
 .big-btn{
     padding: 20px 120px;
     font-size: 18px;
