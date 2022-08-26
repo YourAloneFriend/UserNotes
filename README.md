@@ -13,7 +13,7 @@ DB:
 
 - Note table:
     - id INTEGER PRIMARY_KEY,
-    - note_name VCHAR(32) NOT NULL,
-    - note VCHAR(1024) NOT NULL,
+    - note_name VCHAR(64) NOT NULL,
+    - note VCHAR(2048) NOT NULL,
     - created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     - user_id INTEGER FOREIGN_KEY,
