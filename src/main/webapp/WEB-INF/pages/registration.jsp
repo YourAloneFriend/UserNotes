@@ -2,7 +2,7 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>Registration</title>
+    <title>UserNotes</title>
 
     <style>
         <%@include file="../styles/main.css"%>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Authorization</title>
+    <title>UserNotes</title>
 
     <style>
         <%@include file="../styles/main.css"%>
