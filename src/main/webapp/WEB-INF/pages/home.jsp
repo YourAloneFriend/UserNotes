@@ -2,6 +2,7 @@
 <%@ page import="com.application.model.Note" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>UserNotes</title>
@@ -16,6 +17,23 @@
     User user = (User)session.getAttribute("user");
     List<Note> notes = (List<Note>)session.getAttribute("notes");
 %>
+
+<center><div class="AlertMessage">
+    <%
+        if(session.getAttribute("alert-color") != null){
+            if((Boolean)session.getAttribute("alert-color")){
+    %>
+    <p class="color-red font-alert">${alert}</p>
+    <%
+    }else{
+    %>
+    <p class="color-green font-alert">${alert}</p>
+    <%
+        }}else{
+    %>
+    </br>
+    <%}%>
+</div></center>
 
 <center>
     <div class="header-title color">
@@ -44,7 +62,7 @@
                     <th><%=i%></th>
                     <th><a href="/read-note?id=<%=note.getId()%>"><%=note.getNoteName()%></a></th>
                     <th><%=note.getCreatedAt()%></th>
-                    <th><a href="/update-note?id=<%=note.getId()%>">Update</a></th>
+                    <th><a href="/edit-note?id=<%=note.getId()%>">Update</a></th>
                     <th><a href="/delete-note?id=<%=note.getId()%>">Delete</a></th>
                 </tr>
             </tbody>

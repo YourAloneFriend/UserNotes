@@ -25,7 +25,7 @@ public interface UserDao {
                 throw new SQLException("User with this email is already registered.");
             }
         } catch (IOException e){
-            throw new IOException("Can't connect to DB or execute this query. Something went wrong please message it to the administrator.");
+            throw new IOException("Can't connect to DB or execute this query. Something went wrong, so please message it to the administrator.");
         }
     }
 
@@ -57,7 +57,32 @@ public interface UserDao {
                 throw new SQLException("Wrong password.");
             }
         } catch (IOException e) {
-            throw new SQLException("Can't connect to DB or execute this query. Something went wrong please message it to the administrator.");
+            throw new SQLException("Can't connect to DB or execute this query. Something went wrong, so please message it to the administrator.");
         }
+    }
+
+    static User getUserById(int userId) throws SQLException, IOException {
+        User user = null;
+        try(DataBaseHandler dataBaseHandler = new DataBaseHandler()) {
+
+            String query = String.format("SELECT * FROM %s.User WHERE id = '%s';",
+                    dataBaseHandler.getDBName(), userId);
+            ResultSet resultSet;
+
+            try(PreparedStatement preparedStatement = dataBaseHandler.getDbConnection().prepareStatement(query)){
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next())
+                    user = User.base()
+                            .id(resultSet.getInt("id"))
+                            .userName(resultSet.getString("username"))
+                            .email(resultSet.getString("email"))
+                            .password(resultSet.getString("password")).build();
+            } catch (SQLException e) {
+                throw new SQLException("There is no registered account with this id.");
+            }
+        } catch (IOException e) {
+            throw new SQLException("Can't connect to DB or execute this query. Something went wrong, so please message it to the administrator.");
+        }
+        return user;
     }
 }

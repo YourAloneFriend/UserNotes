@@ -1,6 +1,7 @@
 package com.application.database;
 
 import com.application.model.Note;
+import com.application.model.User;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -51,23 +52,64 @@ public interface NoteDao {
             try(PreparedStatement preparedStatement = dataBaseHandler.getDbConnection().prepareStatement(query)) {
                 preparedStatement.executeUpdate();
             } catch (SQLException e){
-                throw new SQLException("Can't add your note. Something went wrong please message it to the administrator.");
+                throw new SQLException("Can't add your note. Something went wrong, so please message it to the administrator.");
             }
         } catch (IOException e){
-            throw new IOException("Can't connect to DB or execute this query. Something went wrong please message it to the administrator.");
+            throw new IOException("Can't connect to DB or execute this query. Something went wrong, so please message it to the administrator.");
         }
     }
 
-    static Note readNote(int noteId){
-        return null;
+    static Note readNote(int noteId) throws SQLException, IOException {
+        Note note = null;
+        try(DataBaseHandler dataBaseHandler = new DataBaseHandler()){
+            String query = String.format("SELECT * FROM %s.Note WHERE id = '%s';",
+                    dataBaseHandler.getDBName(), noteId);
+            ResultSet resultSet;
+
+            try(PreparedStatement preparedStatement = dataBaseHandler.getDbConnection().prepareStatement(query)) {
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next())
+                    note = Note.base()
+                            .userId(resultSet.getInt("user_id"))
+                            .noteName(resultSet.getString("note_name"))
+                            .note(resultSet.getString("note"))
+                            .createdAt(resultSet.getString("created_at"))
+                            .build();
+            } catch (SQLException e){
+                throw new SQLException("Can't read your note. Something went wrong, so please message it to the administrator.");
+            }
+        } catch (IOException e){
+            throw new IOException("Can't connect to DB or execute this query. Something went wrong, so please message it to the administrator.");
+        }
+        return note;
     }
 
-    static void updateNote(int noteId, Note note){
-
+    static void updateNote(Note note) throws SQLException, IOException {
+        try(DataBaseHandler dataBaseHandler = new DataBaseHandler()) {
+            String query = String.format("UPDATE %s.Note SET note_name = '%s', note = '%s' WHERE id = '%s';",
+                    dataBaseHandler.getDBName(), note.getNoteName().replace("'", "''"), note.getNote().replace("'", "''"), note.getId());
+            try(PreparedStatement preparedStatement = dataBaseHandler.getDbConnection().prepareStatement(query)) {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e){
+                throw new SQLException("Can't update your note with this id. Maybe something went wrong, so please message it to the administrator.");
+            }
+        } catch (IOException e){
+            throw new IOException("Can't connect to DB or execute this query. Something went wrong, so please message it to the administrator.");
+        }
     }
 
-    static void deleteNote(int noteId){
-
+    static void deleteNote(int noteId) throws SQLException, IOException {
+        try(DataBaseHandler dataBaseHandler = new DataBaseHandler()) {
+            String query = String.format("DELETE FROM %s.Note WHERE id = '%s';",
+                    dataBaseHandler.getDBName(), noteId);
+            try(PreparedStatement preparedStatement = dataBaseHandler.getDbConnection().prepareStatement(query)) {
+                preparedStatement.executeUpdate();
+            } catch (SQLException e){
+                throw new SQLException("Can't delete your note with this id. Maybe something went wrong, so please message it to the administrator.");
+            }
+        } catch (IOException e){
+            throw new IOException("Can't connect to DB or execute this query. Something went wrong, so please message it to the administrator.");
+        }
     }
 
 }

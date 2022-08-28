@@ -28,6 +28,8 @@ public class HomeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = httpServletRequest.getRequestDispatcher("/WEB-INF/pages/home.jsp");
+        httpServletRequest.getSession().setAttribute("alert", null);
+        httpServletRequest.getSession().setAttribute("alert-color", null);
 
         user = (User)httpServletRequest.getSession().getAttribute("user");
         httpServletRequest.getSession().setAttribute("user", user);
@@ -43,6 +45,7 @@ public class HomeServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        httpServletRequest.setCharacterEncoding("UTF-8");
         if(httpServletRequest.getParameter("button").equals("Log out"))
             httpServletResponse.sendRedirect("/authentication");
         else {
