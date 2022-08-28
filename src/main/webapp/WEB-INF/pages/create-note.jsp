@@ -25,10 +25,12 @@
         %>
             <p class="color-green font-alert">${alert}</p>
         <%
-            }}
+            }} else{
         %>
-
-    </br>
+            </br>
+        <%
+            }
+        %>
 </div></center>
 
 <form method="post">
@@ -44,7 +46,7 @@
         </table>
 
         <input class="medium-btn color margin-right" id="submit" name="button" value="Create" type="submit">
-        <input class="medium-btn color margin-right" id="back" name="button" value="Back" type="submit">
+        <input class="medium-btn color margin-left" id="back" name="button" value="Back" type="submit">
     </div></center>
 </form>
 </body>

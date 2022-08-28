@@ -23,12 +23,11 @@ public class CreateNoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = httpServletRequest.getRequestDispatcher("/WEB-INF/pages/create-note.jsp");
         user = (User)httpServletRequest.getSession().getAttribute("user");
-        httpServletRequest.getSession().setAttribute("alert-color", null);
-        httpServletRequest.getSession().setAttribute("alert", null);
         requestDispatcher.forward(httpServletRequest, httpServletResponse);
     }
 
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        httpServletRequest.setCharacterEncoding("UTF-8");
         if(httpServletRequest.getParameter("button").equals("Back")) {
             httpServletResponse.sendRedirect("/home");
             return;
@@ -42,9 +41,9 @@ public class CreateNoteServlet extends HttpServlet {
 
             httpServletRequest.getSession().setAttribute("alert-color", false);
             httpServletRequest.getSession().setAttribute("alert", "The note was successfully added!");
-        }catch (Exception ex){
+        }catch (Exception e){
             httpServletRequest.getSession().setAttribute("alert-color", true);
-            httpServletRequest.getSession().setAttribute("alert", ex.getMessage());
+            httpServletRequest.getSession().setAttribute("alert", e.getMessage());
         }finally {
             httpServletRequest.getRequestDispatcher("/WEB-INF/pages/create-note.jsp").forward(httpServletRequest, httpServletResponse);
         }

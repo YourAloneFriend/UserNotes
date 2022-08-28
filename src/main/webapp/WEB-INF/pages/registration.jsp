@@ -25,10 +25,10 @@
         %>
             <p class="color-green font-alert">${alert}</p>
         <%
-            }}
+            }}else{
         %>
-
-    </br>
+            </br>
+        <%}%>
 </div></center>
 
 <form method="post">
